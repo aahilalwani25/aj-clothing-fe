@@ -6,9 +6,6 @@ export default function Home() {
   return (
     <div className="w-screen h-screen bg-white">
       <Nav />
-      {/* <div className="p-8">
-        <Carousel />
-      </div> */}
     </div>
   );
 }
