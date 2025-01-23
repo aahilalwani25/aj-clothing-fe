@@ -22,7 +22,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example() {
+export default function Nav({onOpenCart}) {
   return (
     <Disclosure as="nav" className="bg-white">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -81,6 +81,7 @@ export default function Example() {
             </button>
             <button
               type="button"
+              onClick={onOpenCart}
               className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
             >
               <span className="absolute -inset-1.5" />
