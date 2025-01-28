@@ -8,7 +8,16 @@ import {
   Button,
 } from "@heroui/react";
 
-export default function CustomDrawer({ isOpen, onOpen, onOpenChange }) {
+const items = [
+  {
+    title: "3 pc suite",
+    image: "hero-section-img.jpg",
+    quantity: 1,
+    price: 4000,
+  },
+];
+
+export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
   //const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
@@ -16,35 +25,39 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange }) {
       <DrawerContent>
         {(onClose) => (
           <>
-            <DrawerHeader className="flex flex-col gap-1">
-              Drawer Title
+            <DrawerHeader className="flex gap-1 text-black justify-between">
+              <div>Cart Summary</div>
+              <div className="font-thin pr-3 text-[15px]">
+                My Items: {items?.length}
+              </div>
             </DrawerHeader>
             <DrawerBody>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
-                amet hendrerit risus, sed porttitor quam.
-              </p>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
-                amet hendrerit risus, sed porttitor quam.
-              </p>
-              <p>
-                Magna exercitation reprehenderit magna aute tempor cupidatat
-                consequat elit dolor adipisicing. Mollit dolor eiusmod sunt ex
-                incididunt cillum quis. Velit duis sit officia eiusmod Lorem
-                aliqua enim laboris do dolor eiusmod. Et mollit incididunt nisi
-                consectetur esse laborum eiusmod pariatur proident Lorem eiusmod
-                et. Culpa deserunt nostrud ad veniam.
-              </p>
+              {items.map((item, index) => (
+                <div
+                  key={index}
+                  className="border h-36 text-black items-center"
+                >
+                  <div className="flex gap-3 items-center">
+                    <img
+                      src={item?.image}
+                      className="w-[6.25rem] self-center"
+                    />
+                    <div className="gap-4 flex flex-col">
+                      <div>{item?.title}</div>
+                      <div>Rs. {item?.price}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </DrawerBody>
-            <DrawerFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
+            <DrawerFooter className="items-center justify-between text-black">
+              {/* <Button color="danger" variant="light" onPress={onClose}>
                 Close
-              </Button>
-              <Button color="primary" onPress={onClose}>
-                Action
+              </Button> */}
+              <p className="font-bold">Total: </p>
+              <p>Rs. 350</p>
+              <Button className="bg-black text-white" onPress={onClose}>
+                Checkout
               </Button>
             </DrawerFooter>
           </>

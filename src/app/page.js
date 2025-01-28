@@ -6,26 +6,19 @@ import Image from "next/image";
 import ProductList from "@/components/ProductList";
 import { useDisclosure } from "@heroui/react";
 import CustomDrawer from "@/components/CustomDrawer";
+import { useCallback, useEffect, useState } from "react";
+import { apiHelper } from "./helpers/apiHelper";
+import { ModalProvider, useModalContext } from "./Providers/ModalProvider";
+import PopupModal from "@/components/ProductDetailsModal";
+import App from "@/components/App";
+import { ProductSelectedProvider } from "./Providers/productSelectedProvider";
 
 export default function Home() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
   return (
-    <>
-    <div className="w-full h-full bg-white">
-      <div>
-        <Nav onOpenCart={onOpen} />
-      </div>
-      {/* <div className="md:pt-8 sm:pt-20">
-        <Hero />
-      </div> */}
-      <ProductList />
-    </div>
-      <CustomDrawer
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-      />
-    </>
+    <ProductSelectedProvider>
+      <ModalProvider>
+        <App />
+      </ModalProvider>
+    </ProductSelectedProvider>
   );
 }
