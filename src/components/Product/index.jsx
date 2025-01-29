@@ -1,5 +1,5 @@
-import { useModalContext } from "@/app/Providers/ModalProvider";
-import { useProductSelectedContext } from "@/app/Providers/productSelectedProvider";
+import { useModalContext } from "@/Providers/ModalProvider";
+import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
 import { ShoppingCartIcon } from "lucide-react";
 import React from "react";
 

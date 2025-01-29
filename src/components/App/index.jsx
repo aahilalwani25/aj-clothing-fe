@@ -1,11 +1,11 @@
-import { apiHelper } from "@/app/helpers/apiHelper";
-import { useModalContext } from "@/app/Providers/ModalProvider";
+import { apiHelper } from "@/helpers/apiHelper";
+import { useModalContext } from "@/Providers/ModalProvider";
 import { useDisclosure } from "@heroui/react";
 import React, { useEffect, useState } from "react";
 import CustomDrawer from "../CustomDrawer";
 import ProductList from "../ProductList";
 import Nav from "../Nav";
-import { useProductSelectedContext } from "@/app/Providers/productSelectedProvider";
+import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
 import ProductDetailsModal from "../ProductDetailsModal";
 
 function App() {
