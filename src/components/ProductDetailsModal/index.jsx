@@ -26,18 +26,19 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
                   className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
                 />
               </div>
-              <div>
-                Rs. {product?.price}
+
+              <div>Category: {product?.category}</div>
+              <div className="flex justify-between">
+                <div className="font-bold">Rs. {product?.price}</div>
+                <div className="border bg-slate-50 px-5 rounded">Availability: In Stock</div>
               </div>
-              
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
               <Button className="bg-black text-white" onPress={onClose}>
-                <ShoppingCart/>+
-                Add to Cart
+                <ShoppingCart />+ Add to Cart
               </Button>
             </ModalFooter>
           </div>
