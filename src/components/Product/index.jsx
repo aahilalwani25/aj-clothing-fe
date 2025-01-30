@@ -1,11 +1,23 @@
 import { useModalContext } from "@/Providers/ModalProvider";
 import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
+import { addItemToCart } from "@/redux/slices/cartSlice";
 import { ShoppingCartIcon } from "lucide-react";
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 function Product({ product, index }) {
   const { toggleModal } = useModalContext();
+  const dispatch= useDispatch();
   const { setProductSelected } = useProductSelectedContext();
+  const cartState= useSelector(state=>state?.cart);
+
+  const onSelectAddToCart= useCallback(()=>{
+    dispatch(addItemToCart({
+      item: product
+    }));
+  },[cartState]);
+
+  console.log(cartState);
 
   return (
     <div
@@ -32,10 +44,10 @@ function Product({ product, index }) {
         <p className="text-sm font-medium text-gray-900">{product.title}</p>
 
         {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
-        <p className="text-sm font-medium text-gray-900">Rs. {product.price}</p>
+        <p className="text-sm font-bold text-gray-900">Rs. {product.price}</p>
       </div>
       <div className="mt-2">
-        <button className="bg-black w-full h-[3.125rem] flex justify-center items-center">
+        <button onClick={onSelectAddToCart} className="bg-black w-full h-[3.125rem] flex justify-center items-center">
           <ShoppingCartIcon />+ Add to Cart
         </button>
       </div>

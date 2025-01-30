@@ -9,7 +9,9 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Badge } from "@heroui/react";
 import { SearchIcon, ShoppingCartIcon } from "lucide-react";
+import { useSelector } from "react-redux";
 
 const navigation = [
   { name: "Home", href: "#", current: false },
@@ -22,7 +24,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Nav({onOpenCart}) {
+export default function Nav({ onOpenCart }) {
+  const cartState = useSelector((state) => state?.cart);
+
   return (
     <Disclosure as="nav" className="bg-white">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
@@ -79,7 +83,7 @@ export default function Nav({onOpenCart}) {
               <span className="sr-only">View cart</span>
               <SearchIcon className="mr-3" />
             </button>
-            <button
+            {/* <button
               type="button"
               onClick={onOpenCart}
               className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
@@ -87,6 +91,17 @@ export default function Nav({onOpenCart}) {
               <span className="absolute -inset-1.5" />
               <span className="sr-only">View cart</span>
               <ShoppingCartIcon className="mr-3" />
+              
+            </button>
+          </div> */}
+            <button className="relative w-[100%] md:flex" onClick={onOpenCart}>
+              <ShoppingCartIcon className="h-7 w-7" />
+
+              {cartState?.items?.length ? (
+                <div className="absolute top-3 -right-1 flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full bg-red-600 text-sm text-white">
+                  {cartState.items.length}
+                </div>
+              ) : null}
             </button>
           </div>
         </div>
