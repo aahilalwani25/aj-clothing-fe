@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className="h-full antialiased"> {/* ✅ Move outside Providers */}
+    <html lang="en" className="h-full antialiased">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <Provider store={store}>
           <ProductSelectedProvider>

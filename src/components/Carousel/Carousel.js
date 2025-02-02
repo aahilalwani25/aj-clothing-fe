@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react";
 
-const images = ["/svg/bin-saeed-exclusive-collection-vol-1.svg"];
+const images = [{
+  src: "/svg/bin-saeed-exclusive-collection-vol-1.svg",
+  href:"/brands/bin-saeed-collections"
+}];
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,19 +30,20 @@ export default function Carousel() {
     <div className="relative w-full flex justify-center">
       {/* Carousel wrapper */}
       <div className="relative h-56 md:h-96 w-full overflow-hidden rounded-lg">
-        {images.map((src, index) => (
-          <div
+        {images.map((image, index) => (
+          <a
+          href={image?.href}
             key={index}
             className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
               index === currentIndex ? "opacity-100" : "opacity-0"
             }`}
           >
             <img
-              src={src}
+              src={image?.src}
               alt={`Slide ${index + 1}`}
               className="w-full h-full object-contain"
             />
-          </div>
+          </a>
         ))}
       </div>
 

@@ -13,13 +13,18 @@ import Product from "../Product";
 //   // More products...
 // ]
 
-export default function ProductList({ products }) {
+export default function ProductList({ products, valueToBeFiltered = null }) {
+  const newProducts =
+    valueToBeFiltered === null
+      ? products
+      : products?.filter((product) =>
+          product?.title?.includes(valueToBeFiltered)
+        );
   return (
-    
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {products.map((product, index) => (
-          <Product key={index} product={product} />
-        ))}
-      </div>
+    <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+      {newProducts.map((product, index) => (
+        <Product key={index} product={product} index={index} />
+      ))}
+    </div>
   );
 }
