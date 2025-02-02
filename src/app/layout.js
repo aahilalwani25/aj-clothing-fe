@@ -24,25 +24,24 @@ const geistMono = Geist_Mono({
 
 export default function RootLayout({ children }) {
   return (
-    <Provider store={store}> {/* ✅ No need to call store() */}
-      <ProductSelectedProvider>
-        <ModalProvider>
-          <PersistGate loading={null} persistor={persistor}> {/* ✅ Correct usage */}
-            <html lang="en" className="h-full antialiased">
-              <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-              >
+    <html lang="en" className="h-full antialiased"> {/* ✅ Move outside Providers */}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Provider store={store}>
+          <ProductSelectedProvider>
+            <ModalProvider>
+              <PersistGate loading={null} persistor={persistor}>
                 <div
                   className="flex min-h-full flex-1 flex-col bg-white"
                   vaul-drawer-wrapper=""
                 >
                   {children}
                 </div>
-              </body>
-            </html>
-          </PersistGate>
-        </ModalProvider>
-      </ProductSelectedProvider>
-    </Provider>
+              </PersistGate>
+            </ModalProvider>
+          </ProductSelectedProvider>
+        </Provider>
+      </body>
+    </html>
   );
 }
+

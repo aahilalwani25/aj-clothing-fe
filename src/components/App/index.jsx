@@ -11,7 +11,6 @@ import ProductDetailsModal from "../ProductDetailsModal";
 import Layout from "@/Layout/Layout";
 
 function App() {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [productLists, setProductLists] = useState(null);
   const { isModalOpened, toggleModal } = useModalContext();
   const { productSelected } = useProductSelectedContext();
