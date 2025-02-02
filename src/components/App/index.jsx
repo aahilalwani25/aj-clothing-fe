@@ -1,3 +1,4 @@
+"use client";
 import { apiHelper } from "@/helpers/apiHelper";
 import { useModalContext } from "@/Providers/ModalProvider";
 import { useDisclosure } from "@heroui/react";
@@ -7,6 +8,7 @@ import ProductList from "../ProductList";
 import Nav from "../Nav";
 import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
 import ProductDetailsModal from "../ProductDetailsModal";
+import Layout from "@/Layout/Layout";
 
 function App() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -31,24 +33,11 @@ function App() {
   }, [productLists]);
   return (
     <>
-      <div className="w-full h-full bg-white">
-        <div>
-          <Nav onOpenCart={onOpen} />
-        </div>
-        {/* <div className="md:pt-8 sm:pt-20">
-        <Hero />
-      </div> */}
-        {productLists?.length > 0 ? (
-          <ProductList products={productLists} />
-        ) : (
-          <div>No Products to show</div>
-        )}
-      </div>
-      <CustomDrawer
-        isOpen={isOpen}
-        onOpen={onOpen}
-        onOpenChange={onOpenChange}
-      />
+      {productLists?.length > 0 ? (
+        <ProductList products={productLists} />
+      ) : (
+        <div>No Products to show</div>
+      )}
       {isModalOpened && (
         <ProductDetailsModal
           isOpen={isModalOpened}
