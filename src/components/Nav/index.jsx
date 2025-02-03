@@ -6,6 +6,7 @@ import {
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@heroui/react";
 import { SearchIcon, ShoppingCartIcon } from "lucide-react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const navigation = [
@@ -21,6 +22,7 @@ function classNames(...classes) {
 
 export default function Nav({ onOpenCart }) {
   const cartState = useSelector((state) => state?.cart);
+  const [toggleSearch, setToggleSearch] = useState(false);
 
   return (
     <Disclosure as="nav" className="bg-white">
@@ -69,15 +71,19 @@ export default function Nav({ onOpenCart }) {
               </div>
             </div>
           </div>
+
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
-              type="button"
-              className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View cart</span>
-              <SearchIcon className="mr-3" />
-            </button>
+            {!toggleSearch ? (
+              <button
+                onClick={() => setToggleSearch((search) => !search)}
+                type="button"
+                className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+              >
+                <span className="absolute -inset-1.5" />
+                <span className="sr-only">View cart</span>
+                <SearchIcon className="mr-3" />
+              </button>
+            ) : null}
             {/* <button
               type="button"
               onClick={onOpenCart}
