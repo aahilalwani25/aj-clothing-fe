@@ -13,7 +13,7 @@ function Product({ product, index }) {
 
   const onSelectAddToCart= useCallback(()=>{
     dispatch(addItemToCart({
-      item: product
+      item: {...product,quantity:1}
     }));
   },[cartState]);
 

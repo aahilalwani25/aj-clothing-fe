@@ -10,10 +10,10 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const navigation = [
-  { name: "Home", href: "#", current: false },
-  { name: "Ladies", href: "#", current: false },
-  { name: "Gents", href: "#", current: false },
-  { name: "Kids", href: "#", current: false },
+  { name: "Home", href: "/", current: false },
+  { name: "Ladies", href: "/ladies", current: false },
+  { name: "Gents", href: "/gents", current: false },
+  { name: "Kids", href: "/kids", current: false },
 ];
 
 function classNames(...classes) {

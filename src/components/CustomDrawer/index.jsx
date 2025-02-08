@@ -7,6 +7,10 @@ import {
   DrawerFooter,
   Button,
 } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { useSelector, useDispatch } from "react-redux";
+import { FaTrash } from "react-icons/fa";
+import { removeItem, updateQuantity } from "@/redux/slices/cartSlice"; // Adjust the import based on your project structure
 
 const items = [
   {
@@ -18,7 +22,20 @@ const items = [
 ];
 
 export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
-  //const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const cart = useSelector(state => state.cart);
+  const dispatch = useDispatch();
+  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const router = useRouter();
+
+  const handleRemoveItem = (itemId) => {
+    dispatch(removeItem(itemId));
+  };
+
+  const handleQuantityChange = (itemId, newQuantity) => {
+    if (newQuantity > 0) {
+      dispatch(updateQuantity({ id: itemId, quantity: newQuantity }));
+    }
+  };
 
   return (
     <Drawer size={"lg"} isOpen={isOpen} onOpenChange={onOpenChange}>
@@ -28,35 +45,54 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
             <DrawerHeader className="flex gap-1 text-black justify-between">
               <div>Cart Summary</div>
               <div className="font-thin pr-3 text-[15px]">
-                My Items: {items?.length}
+                My Items: {cart?.items?.length}
               </div>
             </DrawerHeader>
             <DrawerBody>
-              {items.map((item, index) => (
+              {cart?.items.map((item, index) => (
                 <div
                   key={index}
-                  className="border h-36 text-black items-center"
+                  className="border h-36 text-black items-center flex justify-between p-4"
                 >
                   <div className="flex gap-3 items-center">
                     <img
-                      src={item?.image}
+                      src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${item?.main_image}`}
                       className="w-[6.25rem] self-center"
+                      alt={item.title}
                     />
                     <div className="gap-4 flex flex-col">
                       <div>{item?.title}</div>
                       <div>Rs. {item?.price}</div>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => handleQuantityChange(item.product_id, item.quantity - 1)}
+                          className="px-2 py-1 border rounded"
+                        >
+                          -
+                        </button>
+                        <div>Quantity: {item?.quantity}</div>
+                        <button
+                          onClick={() => handleQuantityChange(item.product_id, item.quantity + 1)}
+                          className="px-2 py-1 border rounded"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <button
+                    onClick={() => handleRemoveItem(item.product_id)}
+                    className="text-red-500 hover:text-red-700"
+                  >
+                    <FaTrash />
+                  </button>
                 </div>
               ))}
             </DrawerBody>
             <DrawerFooter className="items-center justify-between text-black">
-              {/* <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button> */}
               <p className="font-bold">Total: </p>
-              <p>Rs. 350</p>
-              <Button className="bg-black text-white" onPress={onClose}>
+              <p>Rs. {totalAmount}</p>
+              <Button className="bg-black text-white" onPress={() => router?.push('/checkout')}>
                 Checkout
               </Button>
             </DrawerFooter>

@@ -1,4 +1,4 @@
-const { createSlice } = require("@reduxjs/toolkit");
+import { createSlice } from "@reduxjs/toolkit";
 
 const cartSlice = createSlice({
   name: "cart",
@@ -8,19 +8,45 @@ const cartSlice = createSlice({
   },
   reducers: {
     addItemToCart: (state, action) => {
-      state.items.push(action.payload?.item);
-      state.totalCost += action.payload?.item?.price;
+      const existingItem = state.items.find(
+        (item) => item.product_id === action.payload.item.product_id
+      );
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.items.push({ ...action.payload.item, quantity: 1 });
+      }
+      state.totalCost += action.payload.item.price;
     },
     deleteItemFromCart: (state, action) => {
-      const itemIndexFound = state.items?.findIndex(
-        (item) => item?.product_id === action?.payload?.product_id
+      const itemIndexFound = state.items.findIndex(
+        (item) => item.product_id === action.payload.product_id
       );
-      if (itemIndexFound) {
-        state?.items?.slice(itemIndexFound, 1);
+      if (itemIndexFound !== -1) {
+        const [removedItem] = state.items.splice(itemIndexFound, 1);
+        state.totalCost -= removedItem.price * removedItem.quantity;
+      }
+    },
+    removeItem: (state, action) => {
+      const itemIndexFound = state.items.findIndex(
+        (item) => item.product_id === action.payload
+      );
+      if (itemIndexFound !== -1) {
+        const [removedItem] = state.items.splice(itemIndexFound, 1);
+        state.totalCost -= removedItem.price * removedItem.quantity;
+      }
+    },
+    updateQuantity: (state, action) => {
+      const { id, quantity } = action.payload;
+      const itemToUpdate = state.items.find((item) => item.product_id === id);
+      if (itemToUpdate) {
+        state.totalCost -= itemToUpdate.price * itemToUpdate.quantity;
+        itemToUpdate.quantity = quantity;
+        state.totalCost += itemToUpdate.price * quantity;
       }
     },
   },
 });
 
-export const { addItemToCart } = cartSlice.actions;
+export const { addItemToCart, deleteItemFromCart, removeItem, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
