@@ -52,12 +52,12 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
               {cart?.items.map((item, index) => (
                 <div
                   key={index}
-                  className="border h-36 text-black items-center flex justify-between p-4"
+                  className="border h-36 rounded text-black items-center flex justify-between p-4"
                 >
                   <div className="flex gap-3 items-center">
                     <img
                       src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${item?.main_image}`}
-                      className="w-[6.25rem] self-center"
+                      className="w-[6.25rem] h-[100px] self-center"
                       alt={item.title}
                     />
                     <div className="gap-4 flex flex-col">

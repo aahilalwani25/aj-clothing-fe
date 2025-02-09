@@ -1,16 +1,12 @@
 "use client";
 import { apiHelper } from "@/helpers/apiHelper";
 import { useModalContext } from "@/Providers/ModalProvider";
-import { useDisclosure } from "@heroui/react";
 import React, { useEffect, useState } from "react";
-import CustomDrawer from "../CustomDrawer";
 import ProductList from "../ProductList";
-import Nav from "../Nav";
 import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
 import ProductDetailsModal from "../ProductDetailsModal";
-import Layout from "@/Layout/Layout";
 
-function App() {
+function App({ valueToBeFiltered = null, gender = null }) {
   const [productLists, setProductLists] = useState(null);
   const { isModalOpened, toggleModal } = useModalContext();
   const { productSelected } = useProductSelectedContext();
@@ -33,7 +29,11 @@ function App() {
   return (
     <>
       {productLists?.length > 0 ? (
-        <ProductList products={productLists} />
+        <ProductList
+          products={productLists}
+          valueToBeFiltered={valueToBeFiltered}
+          gender={gender}
+        />
       ) : (
         <div>No Products to show</div>
       )}

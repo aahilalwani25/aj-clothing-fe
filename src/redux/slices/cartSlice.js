@@ -18,16 +18,7 @@ const cartSlice = createSlice({
       }
       state.totalCost += action.payload.item.price;
     },
-    deleteItemFromCart: (state, action) => {
-      const itemIndexFound = state.items.findIndex(
-        (item) => item.product_id === action.payload.product_id
-      );
-      if (itemIndexFound !== -1) {
-        const [removedItem] = state.items.splice(itemIndexFound, 1);
-        state.totalCost -= removedItem.price * removedItem.quantity;
-      }
-    },
-    removeItem: (state, action) => {
+    removeItem: (state, action) => { //when a user presses on "delete" icon
       const itemIndexFound = state.items.findIndex(
         (item) => item.product_id === action.payload
       );
@@ -48,5 +39,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addItemToCart, deleteItemFromCart, removeItem, updateQuantity } = cartSlice.actions;
+export const { addItemToCart, removeItem, updateQuantity } = cartSlice.actions;
 export default cartSlice.reducer;
