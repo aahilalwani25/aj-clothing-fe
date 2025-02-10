@@ -2,10 +2,16 @@
 
 import { useState, useEffect } from "react";
 
-const images = [{
-  src: "/svg/bin-saeed-exclusive-collection-vol-1.svg",
-  href:"/brands/bin-saeed-collections"
-}];
+const images = [
+  {
+    src: "/svg/bin-saeed-exclusive-collection-vol-1.svg",
+    href: "/brands/bin-saeed-collections",
+  },
+  {
+    src: "/svg/mehroon-catalogue.svg",
+    href: "/brands/mehroon-lawn-by-tawakkal",
+  },
+];
 
 export default function Carousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -32,7 +38,7 @@ export default function Carousel() {
       <div className="relative h-56 md:h-96 w-full overflow-hidden rounded-lg">
         {images.map((image, index) => (
           <a
-          href={image?.href}
+            href={image?.href}
             key={index}
             className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
               index === currentIndex ? "opacity-100" : "opacity-0"
@@ -48,20 +54,20 @@ export default function Carousel() {
       </div>
 
       {/* Previous Button */}
-      <button
+      {/* <button
         onClick={prevSlide}
         className="absolute top-1/2 left-0 transform -translate-y-1/2 z-30 px-3 py-1 rounded-full bg-gray-800 text-white"
       >
         ❮
-      </button>
+      </button> */}
 
       {/* Next Button */}
-      <button
+      {/* <button
         onClick={nextSlide}
         className="absolute top-1/2 right-0 transform -translate-y-1/2 z-30 px-3 py-1 rounded-full bg-gray-800 text-white"
       >
         ❯
-      </button>
+      </button> */}
     </div>
   );
 }

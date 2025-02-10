@@ -5,9 +5,11 @@ import {
 } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Badge } from "@heroui/react";
-import { SearchIcon, ShoppingCartIcon } from "lucide-react";
+import { SearchIcon, ShoppingCartIcon, TextSearch } from "lucide-react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { Input } from "@heroui/input";
+import Search from "../Search";
 
 const navigation = [
   { name: "Home", href: "/", current: false },
@@ -72,32 +74,24 @@ export default function Nav({ onOpenCart }) {
             </div>
           </div>
 
-          <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {!toggleSearch ? (
+          <div className="flex items-center gap-4 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 w-full justify-end">
+            {toggleSearch ? (
+              <Search/>
+            ) : (
               <button
                 onClick={() => setToggleSearch((search) => !search)}
                 type="button"
-                className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
+                className="rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:outline-hidden"
               >
-                <span className="absolute -inset-1.5" />
-                <span className="sr-only">View cart</span>
                 <SearchIcon className="mr-3" />
               </button>
-            ) : null}
-            {/* <button
-              type="button"
-              onClick={onOpenCart}
-              className="relative rounded-full p-1 text-gray-400 hover:text-black focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden"
-            >
-              <span className="absolute -inset-1.5" />
-              <span className="sr-only">View cart</span>
-              <ShoppingCartIcon className="mr-3" />
-              
-            </button>
-          </div> */}
-            <button className="relative w-[100%] md:flex" onClick={onOpenCart}>
-              <ShoppingCartIcon className="h-7 w-7" />
+            )}
 
+            <button
+              className="relative flex items-center justify-center w-12 h-10"
+              onClick={onOpenCart}
+            >
+              <ShoppingCartIcon className="h-7 w-7" />
               {cartState?.items?.length ? (
                 <div className="absolute top-3 -right-1 flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full bg-red-600 text-sm text-white">
                   {cartState.items.length}
