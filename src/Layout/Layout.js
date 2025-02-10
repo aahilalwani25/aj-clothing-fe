@@ -1,5 +1,6 @@
 "use client";
 import CustomDrawer from "@/components/CustomDrawer";
+import Footer from "@/components/Footer";
 import Nav from "@/components/Nav";
 import { useDisclosure } from "@heroui/react";
 import React from "react";

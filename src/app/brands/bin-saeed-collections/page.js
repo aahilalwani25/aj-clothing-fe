@@ -1,4 +1,5 @@
 "use client";
+import Footer from "@/components/Footer";
 import ProductDetailsModal from "@/components/ProductDetailsModal";
 import ProductList from "@/components/ProductList";
 import { apiHelper } from "@/helpers/apiHelper";
@@ -45,6 +46,7 @@ function Page() {
             product={productSelected}
           />
         )}
+        <Footer/>
       </div>
     </Layout>
   );

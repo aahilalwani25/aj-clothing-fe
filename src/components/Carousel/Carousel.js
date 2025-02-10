@@ -21,12 +21,6 @@ export default function Carousel() {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % totalSlides);
   };
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? totalSlides - 1 : prevIndex - 1
-    );
-  };
-
   useEffect(() => {
     const interval = setInterval(nextSlide, 3000);
     return () => clearInterval(interval);
