@@ -12,15 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { FaTrash } from "react-icons/fa";
 import { removeItem, updateQuantity } from "@/redux/slices/cartSlice"; // Adjust the import based on your project structure
 
-const items = [
-  {
-    title: "3 pc suite",
-    image: "hero-section-img.jpg",
-    quantity: 1,
-    price: 4000,
-  },
-];
-
 export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
   const cart = useSelector(state => state.cart);
   const dispatch = useDispatch();
