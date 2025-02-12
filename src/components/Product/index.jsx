@@ -19,8 +19,6 @@ function Product({ product, index }) {
     );
   }, [cartState]);
 
-  console.log(cartState);
-
   return (
     <div
       data-modal-target="popup-modal"
@@ -38,7 +36,7 @@ function Product({ product, index }) {
           <img
             alt={product.imageAlt}
             src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${product.main_image}`}
-            className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
+            className="aspect-square w-full rounded-md bg-gray-200 object-contain group-hover:opacity-75 lg:aspect-auto lg:h-80"
           />
           <button className="absolute top-2 left-2 bg-black text-white px-3 py-1 text-sm rounded">
             New

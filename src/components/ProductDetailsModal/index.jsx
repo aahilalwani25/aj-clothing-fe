@@ -19,11 +19,11 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
               {product?.title}
             </ModalHeader>
             <ModalBody>
-              <div>
+              <div className="relative">
                 <img
                   alt={product.imageAlt}
                   src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${product.main_image}`}
-                  className="aspect-square w-full rounded-md bg-gray-200 object-cover group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                  className="aspect-square w-full rounded-md bg-gray-200 object-contain group-hover:opacity-75 lg:aspect-auto lg:h-80"
                 />
               </div>
 
