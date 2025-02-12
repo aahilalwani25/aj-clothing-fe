@@ -1,7 +1,5 @@
 "use client";
 import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
-import Link from "next/link";
-import { useState } from "react";
 
 const Breadcrumb = ({ path }) => {
   const paths = {
@@ -9,6 +7,17 @@ const Breadcrumb = ({ path }) => {
     "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collections"],
     "mehroon-collection": ["Home", "Brands", "Mehroon Collection"],
   };
+
+  const icons = [
+    {
+      name: "Home",
+      icon: "/svg/icons/home.svg",
+    },
+    {
+      name: "Brands",
+      icon: "/svg/icons/brands.svg",
+    },
+  ];
 
   const keyPathsArray = Object.keys(paths);
 
@@ -21,26 +30,22 @@ const Breadcrumb = ({ path }) => {
     return paths["home"];
   };
 
+  const getIconForPath = (item) => {
+    const icon = icons.find((icon) => icon.name === item);
+    return icon ? icon.icon : "/svg/icons/store.svg"; // Fallback icon
+  };
+
   return (
-    <Breadcrumbs underline="active" className="w-full h-5 sm:h-12 justify-center">
-      {findActualPathsExist()?.map((item) => (
+    <Breadcrumbs
+      underline="active"
+      className="w-full h-5 sm:h-12 justify-center"
+    >
+      {findActualPathsExist()?.map((item, index) => (
         <BreadcrumbItem key={`${item}`} className="text-black">
+          <img src={getIconForPath(item)} alt={item} />
           {item}
         </BreadcrumbItem>
       ))}
-
-      {/* <BreadcrumbItem key="music" isCurrent={currentPage === "music"}>
-        Music
-      </BreadcrumbItem>
-      <BreadcrumbItem key="artist" isCurrent={currentPage === "artist"}>
-        Artist
-      </BreadcrumbItem>
-      <BreadcrumbItem key="album" isCurrent={currentPage === "album"}>
-        Album
-      </BreadcrumbItem>
-      <BreadcrumbItem key="song" isCurrent={currentPage === "song"}>
-        Song
-      </BreadcrumbItem> */}
     </Breadcrumbs>
   );
 };

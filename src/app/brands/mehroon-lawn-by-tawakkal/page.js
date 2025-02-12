@@ -1,4 +1,5 @@
 "use client";
+import Breadcrumb from "@/components/Breadcrumb";
 import Footer from "@/components/Footer";
 import ProductDetailsModal from "@/components/ProductDetailsModal";
 import ProductList from "@/components/ProductList";
@@ -30,7 +31,8 @@ function Page() {
   }, [productLists]);
   return (
     <Layout>
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 h-screen">
+      <div className="mx-auto px-4 py-7 sm:px-6 sm:py-20 lg:max-w-7xl lg:px-8 h-screen">
+      <Breadcrumb path={"mehroon-collection"}/>
         {productLists?.length > 0 ? (
           <ProductList
             valueToBeFiltered={"Mehroon lawn by tawakkal"}
