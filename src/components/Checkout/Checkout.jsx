@@ -2,14 +2,17 @@
 
 import { apiHelper } from "@/helpers/apiHelper";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import InfoModal from "../InfoModal";
 import { useModalContext } from "@/Providers/ModalProvider";
+import { clearCart } from "@/redux/slices/cartSlice";
 
 export default function Checkout() {
   const cart = useSelector((state) => state.cart);
   const totalAmount = cart?.items.reduce((acc, item) => acc + item.price, 0);
   const { isModalOpened, toggleModal } = useModalContext();
+  const dispatch = useDispatch();
+  const deliveryCharges=150;
 
   const [customerInfo, setCustomerInfo] = useState({
     email: null,
@@ -67,6 +70,7 @@ export default function Checkout() {
 
     if (res?.status === 200) {
       console.log(res?.data);
+      dispatch(clearCart());
     }
   };
 
@@ -75,9 +79,9 @@ export default function Checkout() {
       <div className="font-sans bg-white">
         <div className="flex max-sm:flex-col gap-12 max-lg:gap-4 h-full">
           <div className="bg-gray-100 sm:h-full sm:sticky sm:top-0 lg:min-w-[370px] sm:min-w-[300px]">
-            <div className="relative h-screen">
-              <div className="px-4 py-8 overflow-auto sm:h-[calc(100vh-60px)]">
-                <div className="space-y-4">
+            <div className="relative h-full">
+              <div className="px-4 py-8 overflow-auto sm:h-[calc(100vh-70px)]">
+                <div className="space-y-4 sm:pb-20">
                   {cart?.items?.map((product) => (
                     <div
                       key={product.product_id}
@@ -101,7 +105,7 @@ export default function Checkout() {
                           </li>
                           <li className="flex flex-wrap gap-4">
                             Total Price{" "}
-                            <span className="ml-auto">${product.price}</span>
+                            <span className="ml-auto">Rs. {product.price}</span>
                           </li>
                         </ul>
                       </div>
@@ -111,12 +115,15 @@ export default function Checkout() {
               </div>
               <div className="md:absolute md:left-0 md:bottom-0 bg-gray-200 w-full p-4 sticky">
                 <h4 className="flex flex-wrap gap-4 text-sm lg:text-base text-gray-800">
-                  Total <span className="ml-auto">${totalAmount}</span>
+                  Delivery Charges <span className="ml-auto">Rs. {deliveryCharges}</span>
+                </h4>
+                <h4 className="flex flex-wrap gap-4 text-sm lg:text-base font-bold text-gray-800">
+                  Total <span className="ml-auto">Rs. {totalAmount+deliveryCharges}</span>
                 </h4>
               </div>
             </div>
           </div>
-          <div className="max-w-4xl w-full h-max rounded-md px-4 py-8 sticky top-0">
+          <div className="max-w-4xl w-full h-max rounded-md px-4 py-0 sticky top-0">
             <h2 className="text-2xl font-bold text-gray-800">
               Complete your order
             </h2>
@@ -196,7 +203,7 @@ export default function Checkout() {
                   </button>
                   <button
                     type="submit"
-                    onClick={(e)=>toggleModal(true)}
+                    onClick={(e) => toggleModal(true)}
                     className="btn-submit"
                   >
                     Complete Purchase
@@ -236,10 +243,10 @@ export default function Checkout() {
         <InfoModal
           isOpen={isModalOpened}
           onOpenChange={toggleModal}
-          onConfirm={async(e)=>{
+          onConfirm={async (e) => {
             //e.preventDefault();
             await onSubmitOrder(e);
-            toggleModal(false)
+            toggleModal(false);
           }}
         />
       )}

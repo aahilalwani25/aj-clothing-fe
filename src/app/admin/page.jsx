@@ -1,0 +1,105 @@
+"use client";
+import ProductsTable from "@/components/ProductsTable";
+import { apiHelper } from "@/helpers/apiHelper";
+import Layout from "@/Layout/Layout";
+import React, { useEffect, useState } from "react";
+
+// const products = [
+//   {
+//     name: 'Apple MacBook Pro 17"',
+//     color: "Silver",
+//     category: "Laptop",
+//     accessories: "Yes",
+//     available: "Yes",
+//     price: "$2999",
+//     weight: "3.0 lb.",
+//   },
+//   {
+//     name: "Microsoft Surface Pro",
+//     color: "White",
+//     category: "Laptop PC",
+//     accessories: "No",
+//     available: "Yes",
+//     price: "$1999",
+//     weight: "1.0 lb.",
+//   },
+//   {
+//     name: "Magic Mouse 2",
+//     color: "Black",
+//     category: "Accessories",
+//     accessories: "Yes",
+//     available: "No",
+//     price: "$99",
+//     weight: "0.2 lb.",
+//   },
+//   {
+//     name: "Apple Watch",
+//     color: "Black",
+//     category: "Watches",
+//     accessories: "Yes",
+//     available: "No",
+//     price: "$199",
+//     weight: "0.12 lb.",
+//   },
+//   // Add more products as needed...
+// ];
+
+function Page() {
+  const [products, setProducts] = useState(null);
+
+  const getProducts = async () => {
+    const res = await apiHelper({
+      method: "GET",
+      endpoint: "get-products",
+    });
+
+    if (res?.status === 200) {
+      console.log(res);
+      setProducts(res?.data);
+    }
+  };
+
+  useEffect(() => {
+    if (!products) {
+      getProducts();
+    }
+  }, [products]);
+
+  return (
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      <div className="pb-4 bg-white dark:bg-gray-900">
+        <label for="table-search" className="sr-only">
+          Search
+        </label>
+        <div className="relative mt-1">
+          <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            id="table-search"
+            className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Search for items"
+          />
+        </div>
+      </div>
+      <ProductsTable products={products} />
+    </div>
+  );
+}
+
+export default Page;
