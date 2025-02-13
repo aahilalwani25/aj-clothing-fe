@@ -1,3 +1,4 @@
+import { addItemToCart } from "@/redux/slices/cartSlice";
 import {
   Modal,
   ModalContent,
@@ -8,8 +9,21 @@ import {
   useDisclosure,
 } from "@heroui/react";
 import { ShoppingCart } from "lucide-react";
+import { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
+  const dispatch = useDispatch();
+  const cartState = useSelector((state) => state?.cart);
+
+  const onSelectAddToCart = useCallback(() => {
+    dispatch(
+      addItemToCart({
+        item: { ...product, quantity: 1 },
+      })
+    );
+  }, [cartState]);
+
   return (
     <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
       <ModalContent>
@@ -30,14 +44,16 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
               <div>Category: {product?.category}</div>
               <div className="flex justify-between">
                 <div className="font-bold">Rs. {product?.price}</div>
-                <div className="border bg-slate-50 px-5 rounded">Availability: In Stock</div>
+                <div className="border bg-slate-50 px-5 rounded">
+                  Availability: In Stock
+                </div>
               </div>
             </ModalBody>
             <ModalFooter>
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button className="bg-black text-white" onPress={onClose}>
+              <Button className="bg-black text-white" onPress={onSelectAddToCart}>
                 <ShoppingCart />+ Add to Cart
               </Button>
             </ModalFooter>
