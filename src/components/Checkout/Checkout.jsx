@@ -1,17 +1,78 @@
 "use client";
 
+import { apiHelper } from "@/helpers/apiHelper";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 export default function Checkout() {
   const cart = useSelector((state) => state.cart);
   const totalAmount = cart?.items.reduce((acc, item) => acc + item.price, 0);
+  const [customerInfo, setCustomerInfo] = useState({
+    email: null,
+    first_name: null,
+    last_name: null,
+    phone_number: null,
+    address: null,
+    city: null,
+    state: null,
+    zip_code: null
+  });
+
+  const orderInfo= (cart?.items?.map(c=>({
+    product_id: c?.product_id,
+    quantity: c?.quantity
+  })));
+
+  const setInfoOfCustomer = (e) => {
+    const { name, value } = e.target;
+    setCustomerInfo((prev) => ({
+      ...prev,
+      [name]: value, // Dynamically update the field based on input's name
+    }));
+  };
+
+  const createCustomerAndReturnId=async()=>{
+    const res= await apiHelper({
+      method: "POST",
+      endpoint:"create-customer",
+      body:{
+        customer_info: customerInfo,
+      }
+    });
+
+    if(res?.status===200){
+      const data= await res.data;
+      const customer_id= data?.customer_id;
+      return customer_id;
+    }
+    return null
+  }
+
+  const onSubmitOrder = async(e) => {
+    e.preventDefault();
+    const customer_id= await createCustomerAndReturnId();
+    console.log(customer_id)
+    const res= await apiHelper({
+      method: "POST",
+      endpoint:"create-orders",
+      body:{
+        customer_id: customer_id,
+        products: orderInfo
+      }
+    });
+
+    if(res?.status===200){
+      console.log(res?.data)
+    }
+
+  };
 
   return (
     <div className="font-sans bg-white">
       <div className="flex max-sm:flex-col gap-12 max-lg:gap-4 h-full">
-        <div className="bg-gray-100 sm:h-screen sm:sticky sm:top-0 lg:min-w-[370px] sm:min-w-[300px]">
-          <div className="relative h-full">
-            <div className="px-4 py-8 sm:overflow-auto sm:h-[calc(100vh-60px)]">
+        <div className="bg-gray-100 sm:h-full sm:sticky sm:top-0 lg:min-w-[370px] sm:min-w-[300px]">
+          <div className="relative h-screen">
+            <div className="px-4 py-8 overflow-auto sm:h-[calc(100vh-60px)]">
               <div className="space-y-4">
                 {cart?.items?.map((product) => (
                   <div
@@ -44,7 +105,7 @@ export default function Checkout() {
                 ))}
               </div>
             </div>
-            <div className="md:absolute md:left-0 md:bottom-0 bg-gray-200 w-full p-4">
+            <div className="md:absolute md:left-0 md:bottom-0 bg-gray-200 w-full p-4 sticky">
               <h4 className="flex flex-wrap gap-4 text-sm lg:text-base text-gray-800">
                 Total <span className="ml-auto">${totalAmount}</span>
               </h4>
@@ -63,22 +124,30 @@ export default function Checkout() {
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
+                  name="first_name"
                   placeholder="First Name"
+                  onChange={setInfoOfCustomer}
                   className="input-field text-black"
                 />
                 <input
                   type="text"
+                  name="last_name"
                   placeholder="Last Name"
+                  onChange={setInfoOfCustomer}
                   className="input-field text-black"
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
+                  onChange={setInfoOfCustomer}
                   className="input-field text-black"
                 />
                 <input
                   type="number"
+                  name="phone_number"
                   placeholder="Phone No."
+                  onChange={setInfoOfCustomer}
                   className="input-field text-black"
                 />
               </div>
@@ -90,21 +159,29 @@ export default function Checkout() {
               <div className="grid md:grid-cols-2 gap-4">
                 <input
                   type="text"
+                  name="address"
+                  onChange={setInfoOfCustomer}
                   placeholder="Address Line"
                   className="input-field text-black"
                 />
                 <input
                   type="text"
+                  name="city"
+                  onChange={setInfoOfCustomer}
                   placeholder="City"
                   className="input-field text-black"
                 />
                 <input
                   type="text"
+                  name="state"
+                  onChange={setInfoOfCustomer}
                   placeholder="State"
                   className="input-field text-black"
                 />
                 <input
                   type="text"
+                  name="zip_code"
+                  onChange={setInfoOfCustomer}
                   placeholder="Zip Code"
                   className="input-field text-black"
                 />
@@ -113,7 +190,7 @@ export default function Checkout() {
                 <button type="button" className="btn-cancel">
                   Cancel
                 </button>
-                <button type="submit" className="btn-submit">
+                <button type="submit" onClick={onSubmitOrder} className="btn-submit">
                   Complete Purchase
                 </button>
               </div>
