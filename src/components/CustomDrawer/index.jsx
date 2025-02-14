@@ -13,10 +13,14 @@ import { FaTrash } from "react-icons/fa";
 import { removeItem, updateQuantity } from "@/redux/slices/cartSlice"; // Adjust the import based on your project structure
 
 export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
-  const cart = useSelector(state => state.cart);
+  const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
-  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalAmount = cart?.items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0
+  );
   const router = useRouter();
+  const shouldCheckout= cart?.items?.length > 0;
 
   const handleRemoveItem = (itemId) => {
     dispatch(removeItem(itemId));
@@ -56,14 +60,24 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
                       <div>Rs. {item?.price}</div>
                       <div className="flex items-center gap-2">
                         <button
-                          onClick={() => handleQuantityChange(item.product_id, item.quantity - 1)}
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.product_id,
+                              item.quantity - 1
+                            )
+                          }
                           className="px-2 py-1 border rounded"
                         >
                           -
                         </button>
                         <div>Quantity: {item?.quantity}</div>
                         <button
-                          onClick={() => handleQuantityChange(item.product_id, item.quantity + 1)}
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.product_id,
+                              item.quantity + 1
+                            )
+                          }
                           className="px-2 py-1 border rounded"
                         >
                           +
@@ -83,7 +97,15 @@ export default function CustomDrawer({ isOpen, onOpen, onOpenChange, title }) {
             <DrawerFooter className="items-center justify-between text-black">
               <p className="font-bold">Total: </p>
               <p>Rs. {totalAmount}</p>
-              <Button className="bg-black text-white" onPress={() => router?.push('/checkout')}>
+              <Button
+                disabled={cart?.items?.length > 0}
+                className={`bg-black text-white ${shouldCheckout?"cursor-pointer":"cursor-not-allowed"}`}
+                onPress={
+                  shouldCheckout
+                    ? () => router?.push("/checkout")
+                    : null
+                }
+              >
                 Checkout
               </Button>
             </DrawerFooter>

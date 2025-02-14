@@ -9,10 +9,13 @@ import { clearCart } from "@/redux/slices/cartSlice";
 
 export default function Checkout() {
   const cart = useSelector((state) => state.cart);
-  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price*item?.quantity, 0);
+  const totalAmount = cart?.items.reduce(
+    (acc, item) => acc + item.price * item?.quantity,
+    0
+  );
   const { isModalOpened, toggleModal } = useModalContext();
   const dispatch = useDispatch();
-  const deliveryCharges=150;
+  const deliveryCharges = 150;
 
   const [customerInfo, setCustomerInfo] = useState({
     email: null,
@@ -25,6 +28,9 @@ export default function Checkout() {
     zip_code: null,
   });
 
+  const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
+
   const orderInfo = cart?.items?.map((c) => ({
     product_id: c?.product_id,
     quantity: c?.quantity,
@@ -34,7 +40,7 @@ export default function Checkout() {
     const { name, value } = e.target;
     setCustomerInfo((prev) => ({
       ...prev,
-      [name]: value, // Dynamically update the field based on input's name
+      [name]: value,
     }));
   };
 
@@ -55,22 +61,47 @@ export default function Checkout() {
     return null;
   };
 
+  const validateForm = () => {
+    let formErrors = {};
+    if (!customerInfo.first_name)
+      formErrors.first_name = "First Name is required";
+    if (!customerInfo.last_name) formErrors.last_name = "Last Name is required";
+    if (!customerInfo.email) formErrors.email = "Email is required";
+    if (!customerInfo.phone_number)
+      formErrors.phone_number = "Phone Number is required";
+    if (!customerInfo.address) formErrors.address = "Address is required";
+    if (!customerInfo.city) formErrors.city = "City is required";
+    // Add more fields if needed
+    return formErrors;
+  };
+
   const onSubmitOrder = async (e) => {
     //e.preventDefault();
-    const customer_id = await createCustomerAndReturnId();
-    console.log(customer_id);
-    const res = await apiHelper({
-      method: "POST",
-      endpoint: "create-orders",
-      body: {
-        customer_id: customer_id,
-        products: orderInfo,
-      },
-    });
 
-    if (res?.status === 200) {
-      console.log(res?.data);
-      dispatch(clearCart());
+    const formErrors = validateForm();
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      return;
+    } else {
+      setErrors({});
+    }
+
+    const customer_id = await createCustomerAndReturnId();
+    if (customer_id) {
+      const res = await apiHelper({
+        method: "POST",
+        endpoint: "create-orders",
+        body: {
+          customer_id: customer_id,
+          products: orderInfo,
+        },
+      });
+
+      if (res?.status === 200) {
+        console.log(res?.data);
+        dispatch(clearCart());
+        alert("Your order has been confirmed successfully");
+      }
     }
   };
 
@@ -115,10 +146,14 @@ export default function Checkout() {
               </div>
               <div className="md:absolute md:left-0 md:bottom-0 bg-gray-200 w-full p-4 sticky">
                 <h4 className="flex flex-wrap gap-4 text-sm lg:text-base text-gray-800">
-                  Delivery Charges <span className="ml-auto">Rs. {deliveryCharges}</span>
+                  Delivery Charges{" "}
+                  <span className="ml-auto">Rs. {deliveryCharges}</span>
                 </h4>
                 <h4 className="flex flex-wrap gap-4 text-sm lg:text-base font-bold text-gray-800">
-                  Total <span className="ml-auto">Rs. {totalAmount+deliveryCharges}</span>
+                  Total{" "}
+                  <span className="ml-auto">
+                    Rs. {totalAmount + deliveryCharges}
+                  </span>
                 </h4>
               </div>
             </div>
@@ -128,11 +163,12 @@ export default function Checkout() {
               Complete your order
             </h2>
             <div className="mt-8">
-              <div>
-                <h3 className="text-sm lg:text-base text-gray-800 mb-4">
-                  Personal Details
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+              <h3 className="text-sm lg:text-base text-gray-800 mb-4">
+                Personal Details
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* First Name */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="text"
                     name="first_name"
@@ -140,6 +176,15 @@ export default function Checkout() {
                     onChange={setInfoOfCustomer}
                     className="input-field text-black"
                   />
+                  {errors.first_name && (
+                    <span className="text-red-500 text-xs">
+                      {errors.first_name}
+                    </span>
+                  )}
+                </div>
+
+                {/* Last Name */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="text"
                     name="last_name"
@@ -147,6 +192,15 @@ export default function Checkout() {
                     onChange={setInfoOfCustomer}
                     className="input-field text-black"
                   />
+                  {errors.last_name && (
+                    <span className="text-red-500 text-xs">
+                      {errors.last_name}
+                    </span>
+                  )}
+                </div>
+
+                {/* Email */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="email"
                     name="email"
@@ -154,6 +208,13 @@ export default function Checkout() {
                     onChange={setInfoOfCustomer}
                     className="input-field text-black"
                   />
+                  {errors.email && (
+                    <span className="text-red-500 text-xs">{errors.email}</span>
+                  )}
+                </div>
+
+                {/* Phone Number */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="number"
                     name="phone_number"
@@ -161,13 +222,22 @@ export default function Checkout() {
                     onChange={setInfoOfCustomer}
                     className="input-field text-black"
                   />
+                  {errors.phone_number && (
+                    <span className="text-red-500 text-xs">
+                      {errors.phone_number}
+                    </span>
+                  )}
                 </div>
               </div>
-              <div className="mt-8">
-                <h3 className="text-sm lg:text-base text-gray-800 mb-4">
-                  Shipping Address
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+            </div>
+
+            <div className="mt-8">
+              <h3 className="text-sm lg:text-base text-gray-800 mb-4">
+                Shipping Address
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {/* Address */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="text"
                     name="address"
@@ -175,6 +245,15 @@ export default function Checkout() {
                     placeholder="Address Line"
                     className="input-field text-black"
                   />
+                  {errors.address && (
+                    <span className="text-red-500 text-xs">
+                      {errors.address}
+                    </span>
+                  )}
+                </div>
+
+                {/* City */}
+                <div className="flex flex-col gap-2">
                   <input
                     type="text"
                     name="city"
@@ -182,34 +261,26 @@ export default function Checkout() {
                     placeholder="City"
                     className="input-field text-black"
                   />
-                  <input
-                    type="text"
-                    name="state"
-                    onChange={setInfoOfCustomer}
-                    placeholder="State"
-                    className="input-field text-black"
-                  />
-                  <input
-                    type="text"
-                    name="zip_code"
-                    onChange={setInfoOfCustomer}
-                    placeholder="Zip Code"
-                    className="input-field text-black"
-                  />
+                  {errors.city && (
+                    <span className="text-red-500 text-xs">{errors.city}</span>
+                  )}
                 </div>
-                <div className="flex gap-4 max-md:flex-col mt-8">
-                  <button type="button" className="btn-cancel">
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={(e) => toggleModal(true)}
-                    className="btn-submit"
-                  >
-                    Complete Purchase
-                  </button>
-                </div>
+
+                
               </div>
+            </div>
+
+            <div className="flex gap-4 max-md:flex-col mt-8">
+              <button type="button" className="btn-cancel">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onClick={(e) => toggleModal(true)}
+                className="btn-submit"
+              >
+                Complete Purchase
+              </button>
             </div>
           </div>
         </div>
@@ -244,7 +315,6 @@ export default function Checkout() {
           isOpen={isModalOpened}
           onOpenChange={toggleModal}
           onConfirm={async (e) => {
-            //e.preventDefault();
             await onSubmitOrder(e);
             toggleModal(false);
           }}

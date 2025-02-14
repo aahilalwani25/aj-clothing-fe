@@ -25,7 +25,7 @@ export default function Nav({ onOpenCart }) {
   const [toggleSearch, setToggleSearch] = useState(false);
 
   return (
-    <>
+    <div className="sticky top-0 z-50 w-full bg-white shadow-md">
       <Disclosure as="nav" className="bg-white">
         <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
           <div className="relative flex h-16 items-center justify-between">
@@ -78,7 +78,7 @@ export default function Nav({ onOpenCart }) {
             {/* Search and Cart Icons */}
             <div className="flex gap-4 pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 justify-end">
               {/* Show SearchIcon on larger screens */}
-              <div className="hidden sm:block">
+              {/* <div className="hidden sm:block">
                 <button
                   onClick={() => setToggleSearch((search) => !search)}
                   type="button"
@@ -86,7 +86,7 @@ export default function Nav({ onOpenCart }) {
                 >
                   <SearchIcon className="mr-3" />
                 </button>
-              </div>
+              </div> */}
 
               <button
                 className="relative flex items-center justify-center w-12 h-10"
@@ -127,9 +127,9 @@ export default function Nav({ onOpenCart }) {
       </Disclosure>
 
       {/* Show <Search /> below the navigation bar ONLY on mobile */}
-      <div className="sm:hidden">
+      {/* <div className="sm:hidden">
         <Search/>
-      </div>
-    </>
+      </div> */}
+    </div>
   );
 }
