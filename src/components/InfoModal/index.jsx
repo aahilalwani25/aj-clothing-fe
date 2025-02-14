@@ -5,7 +5,6 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  useDisclosure,
 } from "@heroui/react";
 import { ShoppingCart } from "lucide-react";
 
@@ -20,7 +19,7 @@ export default function InfoModal({ isOpen, onOpenChange, onConfirm}) {
             </ModalHeader>
             <ModalBody>
               <p className="text-gray-500 dark:text-gray-400 mb-6">
-                Once the order is placed, you will receive an email for the information
+                Once the order is placed, out team will contact you for the confirmation
               </p>
             </ModalBody>
             <ModalFooter>

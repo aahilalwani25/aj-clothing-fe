@@ -23,6 +23,7 @@ function Page() {
       getAllOrders();
     }
   }, [orders]);
+
   return <OrdersTable orders={orders} />;
 }
 
