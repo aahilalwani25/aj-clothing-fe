@@ -8,13 +8,18 @@ import {
   Button,
   useDisclosure,
 } from "@heroui/react";
-import { ShoppingCart } from "lucide-react";
+import { CheckCircle, ShoppingCart } from "lucide-react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.cart);
+  const hasUserAlreadyAddedThisProduct =
+    cartState?.items?.filter((item) => item?.product_id === product?.product_id)
+      ?.length > 0
+      ? true
+      : false;
 
   const onSelectAddToCart = useCallback(() => {
     dispatch(
@@ -53,8 +58,31 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
               <Button color="danger" variant="light" onPress={onClose}>
                 Close
               </Button>
-              <Button className="bg-black text-white" onPress={onSelectAddToCart}>
+              {/* <Button
+                className="bg-black text-white"
+                onPress={onSelectAddToCart}
+              >
                 <ShoppingCart />+ Add to Cart
+              </Button> */}
+
+              <Button
+                onPress={
+                  hasUserAlreadyAddedThisProduct ? null : onSelectAddToCart
+                }
+                className={`${
+                  hasUserAlreadyAddedThisProduct ? "bg-gray-700" : "bg-black"
+                } text-white`}
+              >
+                {hasUserAlreadyAddedThisProduct ? (
+                  <div className="gap-2 flex">
+                    <CheckCircle />
+                    Added to cart successfully
+                  </div>
+                ) : (
+                  <>
+                    <ShoppingCart/>+ Add to Cart
+                  </>
+                )}
               </Button>
             </ModalFooter>
           </div>

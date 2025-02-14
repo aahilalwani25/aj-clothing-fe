@@ -1,7 +1,7 @@
 import { useModalContext } from "@/Providers/ModalProvider";
 import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
 import { addItemToCart } from "@/redux/slices/cartSlice";
-import { ShoppingCartIcon } from "lucide-react";
+import { CheckCircle, ShoppingCartIcon } from "lucide-react";
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -10,6 +10,11 @@ function Product({ product, index }) {
   const dispatch = useDispatch();
   const { setProductSelected } = useProductSelectedContext();
   const cartState = useSelector((state) => state?.cart);
+  const hasUserAlreadyAddedThisProduct =
+    cartState?.items?.filter((item) => item?.product_id === product?.product_id)
+      ?.length > 0
+      ? true
+      : false;
 
   const onSelectAddToCart = useCallback(() => {
     dispatch(
@@ -50,12 +55,23 @@ function Product({ product, index }) {
         </div>
         <div className="mt-2"></div>
       </div>
-        <button
-          onClick={onSelectAddToCart}
-          className="bg-black w-full h-[3.125rem] flex justify-center items-center"
-        >
-          <ShoppingCartIcon />+ Add to Cart
-        </button>
+      <button
+        onClick={hasUserAlreadyAddedThisProduct ? null : onSelectAddToCart}
+        className={`${
+          hasUserAlreadyAddedThisProduct ? "bg-gray-700" : "bg-black"
+        } w-full h-[3.125rem] flex justify-center items-center`}
+      >
+        {hasUserAlreadyAddedThisProduct ? (
+          <div className="gap-2 flex">
+            <CheckCircle />
+            Added to cart successfully
+          </div>
+        ) : (
+          <>
+            <ShoppingCartIcon />+ Add to Cart
+          </>
+        )}
+      </button>
     </div>
   );
 }
