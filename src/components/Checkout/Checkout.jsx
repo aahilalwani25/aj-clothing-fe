@@ -9,7 +9,7 @@ import { clearCart } from "@/redux/slices/cartSlice";
 
 export default function Checkout() {
   const cart = useSelector((state) => state.cart);
-  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price, 0);
+  const totalAmount = cart?.items.reduce((acc, item) => acc + item.price*item?.quantity, 0);
   const { isModalOpened, toggleModal } = useModalContext();
   const dispatch = useDispatch();
   const deliveryCharges=150;
