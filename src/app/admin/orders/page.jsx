@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 function Page() {
   const [orders, setOrders] = useState(null);
 
-  const getProducts = async () => {
+  const getAllOrders = async () => {
     const res = await apiHelper({
       method: "GET",
       endpoint: "get-orders",
@@ -20,10 +20,10 @@ function Page() {
 
   useEffect(() => {
     if (!orders) {
-      getProducts();
+      getAllOrders();
     }
   }, [orders]);
-  return <OrdersTable orders={orders}/>;
+  return <OrdersTable orders={orders} />;
 }
 
 export default Page;
