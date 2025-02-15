@@ -32,10 +32,10 @@ export default function Carousel() {
       <div className="relative h-56 md:h-96 w-full overflow-hidden rounded-lg">
         {images.map((image, index) => (
           <a
-            href={image?.href}
+            href={index === currentIndex ? image.href : "#"}
             key={index}
             className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
-              index === currentIndex ? "opacity-100" : "opacity-0"
+              index === currentIndex ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
             }`}
           >
             <img
@@ -46,22 +46,6 @@ export default function Carousel() {
           </a>
         ))}
       </div>
-
-      {/* Previous Button */}
-      {/* <button
-        onClick={prevSlide}
-        className="absolute top-1/2 left-0 transform -translate-y-1/2 z-30 px-3 py-1 rounded-full bg-gray-800 text-white"
-      >
-        ❮
-      </button> */}
-
-      {/* Next Button */}
-      {/* <button
-        onClick={nextSlide}
-        className="absolute top-1/2 right-0 transform -translate-y-1/2 z-30 px-3 py-1 rounded-full bg-gray-800 text-white"
-      >
-        ❯
-      </button> */}
     </div>
   );
 }

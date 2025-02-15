@@ -10,13 +10,12 @@ export const metadata = {
   description: "A clothing site",
 };
 
-export default function Ladies() {
+export default function Gents() {
   return (
     <Layout>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8 h-screen">
-        <Breadcrumb path={"ladies"} />
-        <Carousel />
-        <App gender={"ladies"} />
+        <Breadcrumb path={"gents"} />
+        <App gender={"gents"} />
       </div>
     </Layout>
   );

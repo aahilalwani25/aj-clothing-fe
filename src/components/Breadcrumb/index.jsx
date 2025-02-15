@@ -3,9 +3,11 @@ import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
 
 const Breadcrumb = ({ path }) => {
   const paths = {
-    home: ["Home"],
-    "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collections"],
+    "home": ["Home"],
+    "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collection"],
     "mehroon-collection": ["Home", "Brands", "Mehroon Collection"],
+    "ladies":["Home","Ladies"],
+    "gents":["Home","Gents"]
   };
 
   const icons = [
@@ -16,6 +18,14 @@ const Breadcrumb = ({ path }) => {
     {
       name: "Brands",
       icon: "/svg/icons/brands.svg",
+    },
+    {
+      name: "Ladies",
+      icon: "/svg/icons/female.svg",
+    },
+    {
+      name: "Gents",
+      icon: "/svg/icons/male.svg",
     },
   ];
 
