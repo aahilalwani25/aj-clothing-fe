@@ -64,7 +64,7 @@ export default function Nav({ onOpenCart }) {
                       className={classNames(
                         item.current
                           ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
+                          : "text-black hover:bg-gray-700 hover:text-white",
                         "rounded-md px-3 py-2 text-sm font-medium"
                       )}
                     >
@@ -92,7 +92,7 @@ export default function Nav({ onOpenCart }) {
                 className="relative flex items-center justify-center w-12 h-10"
                 onClick={onOpenCart}
               >
-                <ShoppingCartIcon className="h-7 w-7" />
+                <ShoppingCartIcon color="black" className="h-7 w-7" />
                 {cartState?.items?.length ? (
                   <div className="absolute top-3 -right-1 flex h-[1.25rem] w-[1.25rem] items-center justify-center rounded-full bg-red-600 text-sm text-white">
                     {cartState.items.length}
