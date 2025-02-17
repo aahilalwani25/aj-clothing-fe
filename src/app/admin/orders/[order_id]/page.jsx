@@ -1,4 +1,5 @@
 "use client";
+import WithAdminAuth from "@/components/withAdminAuth";
 import { apiHelper } from "@/helpers/apiHelper";
 import formatDate from "@/utils/dateFormat";
 import { fetchImageOfProducts } from "@/utils/fetchImageOfProducts";
@@ -187,4 +188,4 @@ function Page({ params }) {
   );
 }
 
-export default Page;
+export default WithAdminAuth(Page);

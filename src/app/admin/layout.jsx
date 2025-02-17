@@ -1,6 +1,7 @@
 "use client";
 import { ListOrderedIcon, UserIcon } from "lucide-react";
 import React, { useState } from "react";
+import WithAdminAuth from "../../components/withAdminAuth";
 
 function Layout({ children }) {
   // State to track sidebar visibility
@@ -187,4 +188,4 @@ function Layout({ children }) {
   );
 }
 
-export default Layout;
+export default WithAdminAuth(Layout);

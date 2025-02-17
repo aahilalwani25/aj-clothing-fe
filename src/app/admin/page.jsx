@@ -3,46 +3,7 @@ import ProductsTable from "@/components/ProductsTable";
 import { apiHelper } from "@/helpers/apiHelper";
 import Layout from "@/Layout/Layout";
 import React, { useEffect, useState } from "react";
-
-// const products = [
-//   {
-//     name: 'Apple MacBook Pro 17"',
-//     color: "Silver",
-//     category: "Laptop",
-//     accessories: "Yes",
-//     available: "Yes",
-//     price: "$2999",
-//     weight: "3.0 lb.",
-//   },
-//   {
-//     name: "Microsoft Surface Pro",
-//     color: "White",
-//     category: "Laptop PC",
-//     accessories: "No",
-//     available: "Yes",
-//     price: "$1999",
-//     weight: "1.0 lb.",
-//   },
-//   {
-//     name: "Magic Mouse 2",
-//     color: "Black",
-//     category: "Accessories",
-//     accessories: "Yes",
-//     available: "No",
-//     price: "$99",
-//     weight: "0.2 lb.",
-//   },
-//   {
-//     name: "Apple Watch",
-//     color: "Black",
-//     category: "Watches",
-//     accessories: "Yes",
-//     available: "No",
-//     price: "$199",
-//     weight: "0.12 lb.",
-//   },
-//   // Add more products as needed...
-// ];
+import WithAdminAuth from "../../components/withAdminAuth";
 
 function Page() {
   const [products, setProducts] = useState(null);
@@ -102,4 +63,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default WithAdminAuth(Page);
