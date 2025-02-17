@@ -37,6 +37,7 @@ const AdminLogin = () => {
             </label>
             <input
               type="text"
+              autoCapitalize="off"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className="focus:shadow-outline w-full appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
