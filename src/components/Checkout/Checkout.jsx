@@ -270,6 +270,13 @@ export default function Checkout() {
               </div>
             </div>
 
+            <div className="mt-8">
+              <h3 className="text-sm lg:text-base text-gray-800 mb-4">
+              Note: Payment will be collected upon delivery.
+              </h3>
+              
+            </div>
+
             <div className="flex gap-4 max-md:flex-col mt-8">
               <button type="button" className="btn-cancel">
                 Cancel
