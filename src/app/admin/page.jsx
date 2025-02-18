@@ -8,12 +8,15 @@ import WithAdminAuth from "../../components/withAdminAuth";
 function Page() {
   const [products, setProducts] = useState(null);
 
+  const [searchProduct, setSearchProduct] = useState(null);
+
+  
   const getProducts = async () => {
     const res = await apiHelper({
       method: "GET",
       endpoint: "get-products",
     });
-
+    
     if (res?.status === 200) {
       console.log(res);
       setProducts(res?.data);
@@ -25,6 +28,10 @@ function Page() {
       getProducts();
     }
   }, [products]);
+  
+  const filteredProducts = searchProduct
+    ? products?.filter((product) => product?.title?.toLowerCase()?.includes(searchProduct))
+    : products;
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -53,12 +60,15 @@ function Page() {
           <input
             type="text"
             id="table-search"
+            onChange={(e) => {
+              setSearchProduct(e.target.value);
+            }}
             className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search for items"
           />
         </div>
       </div>
-      <ProductsTable products={products} />
+      <ProductsTable products={filteredProducts} />
     </div>
   );
 }
