@@ -63,27 +63,21 @@ function ProductsTable({ products }) {
               <td className="px-6 py-4">{product.gender}</td>
               <td className="px-6 py-4">
                 <span
-                  className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                    product.availability === 'In Stock'
+                  className={`px-0 py-1 text-xs font-semibold rounded-full left-2 right-2 ${
+                    product.availability === 'In stock'
                       ? 'bg-green-100 text-green-600'
                       : 'bg-red-100 text-red-600'
                   }`}
                 >
-                  {product.status}
+                  {product.availability}
                 </span>
               </td>
-              <td className="flex items-center px-6 py-4">
+              <td className="flex items-center px-6 py-9 justify-center">
                 <a
-                  href="#"
+                  href={`/admin/products/${product?.product_id}`}
                   className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                 >
-                  Edit
-                </a>
-                <a
-                  href="#"
-                  className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
-                >
-                  Remove
+                  View
                 </a>
               </td>
             </tr>

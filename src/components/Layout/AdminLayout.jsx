@@ -1,37 +1,9 @@
-"use client";
-import ProductsTable from "@/components/ProductsTable";
-import { apiHelper } from "@/helpers/apiHelper";
-import Layout from "@/Layout/Layout";
-import React, { useEffect, useState } from "react";
-import WithAdminAuth from "../../components/withAdminAuth";
+import React from 'react'
 
-function Page() {
-  const [products, setProducts] = useState(null);
-
-  const getProducts = async () => {
-    const res = await apiHelper({
-      method: "GET",
-      endpoint: "get-products",
-    });
-
-    if (res?.status === 200) {
-      console.log(res);
-      setProducts(res?.data);
-    }
-  };
-
-  useEffect(() => {
-    if (!products) {
-      getProducts();
-    }
-  }, [products]);
-
+function AdminLayout({children}) {
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <div className="pb-4 bg-white dark:bg-gray-900">
-        <label htmlFor="table-search" className="sr-only">
-          Search
-        </label>
         <div className="relative mt-1">
           <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
             <svg
@@ -43,9 +15,9 @@ function Page() {
             >
               <path
                 stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>
@@ -58,9 +30,9 @@ function Page() {
           />
         </div>
       </div>
-      <ProductsTable products={products} />
+      
     </div>
-  );
+  )
 }
 
-export default WithAdminAuth(Page);
+export default AdminLayout
