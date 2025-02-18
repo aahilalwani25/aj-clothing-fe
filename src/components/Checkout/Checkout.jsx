@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import InfoModal from "../InfoModal";
 import { useModalContext } from "@/Providers/ModalProvider";
 import { clearCart } from "@/redux/slices/cartSlice";
+import { useRouter } from "next/navigation";
 
 export default function Checkout() {
+  const router= useRouter();
   const cart = useSelector((state) => state.cart);
+  const [isLoading,setIsLoading]= useState(false);
   const totalAmount = cart?.items.reduce(
     (acc, item) => acc + item.price * item?.quantity,
     0
@@ -29,7 +32,6 @@ export default function Checkout() {
   });
 
   const [errors, setErrors] = useState({});
-  const [successMessage, setSuccessMessage] = useState("");
 
   const orderInfo = cart?.items?.map((c) => ({
     product_id: c?.product_id,
@@ -45,6 +47,7 @@ export default function Checkout() {
   };
 
   const createCustomerAndReturnId = async () => {
+    setIsLoading(true)
     const res = await apiHelper({
       method: "POST",
       endpoint: "create-customer",
@@ -100,6 +103,7 @@ export default function Checkout() {
       if (res?.status === 200) {
         console.log(res?.data);
         dispatch(clearCart());
+        setIsLoading(false);
         alert("Your order has been confirmed successfully");
       }
     }
@@ -319,11 +323,13 @@ export default function Checkout() {
       </div>
       {isModalOpened && (
         <InfoModal
+        isLoading={isLoading}
           isOpen={isModalOpened}
           onOpenChange={toggleModal}
           onConfirm={async (e) => {
             await onSubmitOrder(e);
             toggleModal(false);
+            router?.back();
           }}
         />
       )}
