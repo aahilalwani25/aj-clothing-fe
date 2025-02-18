@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
+import { DeleteButton } from "../Buttons";
+import { apiHelper } from "@/helpers/apiHelper";
 
-function OrdersTable({ orders }) {
+function OrdersTable({ orders, selectedOrdersToDelete, onDelete, onChangeCheck, deleteLoader }) {
+
+  console.log(selectedOrdersToDelete);
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+      {selectedOrdersToDelete?.length > 0 && (
+        <div className="w-full flex justify-end">
+          <DeleteButton onClick={onDelete} isLoading={deleteLoader}/>
+        </div>
+      )}
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
@@ -40,7 +50,10 @@ function OrdersTable({ orders }) {
         </thead>
         <tbody>
           {orders?.map((order, index) => {
-            const totalQuantity= order?.products?.reduce((acc, item) => acc + item.quantity, 0)
+            const totalQuantity = order?.products?.reduce(
+              (acc, item) => acc + item.quantity,
+              0
+            );
             return (
               <tr
                 key={index}
@@ -51,6 +64,7 @@ function OrdersTable({ orders }) {
                     <input
                       id={`checkbox-table-search-${index}`}
                       type="checkbox"
+                      onChange={(e) => onChangeCheck(e, order)}
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     />
                     <label
@@ -76,12 +90,6 @@ function OrdersTable({ orders }) {
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     View
-                  </a>
-                  <a
-                    href="#"
-                    className="font-medium text-red-600 dark:text-red-500 hover:underline ms-3"
-                  >
-                    Remove
                   </a>
                 </td>
               </tr>
