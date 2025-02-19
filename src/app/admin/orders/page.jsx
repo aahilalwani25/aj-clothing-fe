@@ -8,11 +8,11 @@ function Page() {
   const [orders, setOrders] = useState(null);
 
   const [selectedOrdersToDelete, setSelectedOrdersToDelete] = useState([]);
-  const [deleteLoader,setDeleteLoader]= useState(false)
+  const [deleteLoader, setDeleteLoader] = useState(false);
 
   const onDelete = //useCallback(
     async (e) => {
-      setDeleteLoader(d=>!d)
+      setDeleteLoader((d) => !d);
       const res = await apiHelper({
         endpoint: "delete-order",
         body: {
@@ -23,10 +23,10 @@ function Page() {
       if (res?.status === 200) {
         alert("order deleted successfully");
         getAllOrders();
-        setDeleteLoader(d=>!d)
+        setDeleteLoader((d) => !d);
       }
-    }
-    //,[selectedOrdersToDelete]);
+    };
+  //,[selectedOrdersToDelete]);
 
   const onChangeCheck = (e, order) => {
     setSelectedOrdersToDelete((prev) => {
@@ -62,7 +62,7 @@ function Page() {
 
   return (
     <OrdersTable
-    deleteLoader={deleteLoader}
+      deleteLoader={deleteLoader}
       orders={orders}
       selectedOrdersToDelete={selectedOrdersToDelete}
       onChangeCheck={onChangeCheck}

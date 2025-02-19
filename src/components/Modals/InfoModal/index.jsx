@@ -7,7 +7,7 @@ import {
   Button,
 } from "@heroui/react";
 import { ShoppingCart } from "lucide-react";
-import Loader from "../Loader";
+import Loader from "../../Loader";
 
 export default function InfoModal({
   isOpen,

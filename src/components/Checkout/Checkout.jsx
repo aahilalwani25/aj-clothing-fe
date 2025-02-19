@@ -3,7 +3,7 @@
 import { apiHelper } from "@/helpers/apiHelper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import InfoModal from "../InfoModal";
+import InfoModal from "../Modals/InfoModal";
 import { useModalContext } from "@/Providers/ModalProvider";
 import { clearCart } from "@/redux/slices/cartSlice";
 import { useRouter } from "next/navigation";

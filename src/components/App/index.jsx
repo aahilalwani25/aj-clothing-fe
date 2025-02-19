@@ -4,7 +4,7 @@ import { useModalContext } from "@/Providers/ModalProvider";
 import React, { useEffect, useState } from "react";
 import ProductList from "../ProductList";
 import { useProductSelectedContext } from "@/Providers/productSelectedProvider";
-import ProductDetailsModal from "../ProductDetailsModal";
+import ProductDetailsModal from "../Modals/ProductDetailsModal";
 
 function App({ valueToBeFiltered = null, gender = null }) {
   const [productLists, setProductLists] = useState(null);
