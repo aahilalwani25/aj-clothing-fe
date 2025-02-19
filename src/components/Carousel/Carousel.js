@@ -8,6 +8,10 @@ const images = [
     href: "/brands/bin-saeed-collections",
   },
   {
+    src: "/svg/bin-saeed-exclusive-collection-vol-2.svg",
+    href: "/brands/bin-saeed-collections/vol-2",
+  },
+  {
     src: "/svg/mehroon-catalogue.svg",
     href: "/brands/mehroon-lawn-by-tawakkal",
   },

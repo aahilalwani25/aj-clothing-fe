@@ -11,6 +11,14 @@ import {
 import { CheckCircle, ShoppingCart } from "lucide-react";
 import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Virtual, Pagination } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/virtual";
+import 'swiper/css/pagination';
+
 
 export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
   const dispatch = useDispatch();
@@ -39,11 +47,40 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
             </ModalHeader>
             <ModalBody>
               <div className="relative">
-                <img
-                  alt={product.imageAlt}
-                  src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${product.main_image}`}
-                  className="aspect-square w-full rounded-md bg-gray-200 object-contain group-hover:opacity-75 lg:aspect-auto lg:h-80"
-                />
+                {product?.further_images?.length > 0 ? (
+                  <Swiper
+                    modules={[Virtual, Pagination]}
+                    virtual
+                    slidesPerGroup={1}
+                    spaceBetween={10} // Space between images
+                    slidesPerView={1} // Allows dynamic sizing, so images stay their natural width
+                    loop={false} // Infinite loop
+                    navigation={true} // Add arrows for navigation
+                    pagination={{ clickable: true }} // Enable clickable dots
+                    className="w-full" // Apply overflow-auto for horizontal scroll
+                    style={{ cursor: "grab" }} // Adds a "grab" cursor for better UX
+                  >
+                    {product?.further_images?.map((p, index) => (
+                      <SwiperSlide
+                        //key={index}
+                        className="text-black"
+                        virtualIndex={index}
+                      >
+                        <img
+                          alt={product.imageAlt}
+                          src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${p}`}
+                          className="aspect-square w-full rounded-md bg-gray-200 object-contain group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                        />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                ) : (
+                  <img
+                    alt={product.imageAlt}
+                    src={`${process.env.NEXT_PUBLIC_API_REMOTE_URL}/v1/media/products/${product.main_image}`}
+                    className="aspect-square w-full rounded-md bg-gray-200 object-contain group-hover:opacity-75 lg:aspect-auto lg:h-80"
+                  />
+                )}
               </div>
 
               <div>Category: {product?.category}</div>
@@ -80,7 +117,7 @@ export default function ProductDetailsModal({ isOpen, onOpenChange, product }) {
                   </div>
                 ) : (
                   <>
-                    <ShoppingCart/>+ Add to Cart
+                    <ShoppingCart />+ Add to Cart
                   </>
                 )}
               </Button>

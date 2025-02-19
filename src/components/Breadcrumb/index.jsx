@@ -4,11 +4,12 @@ import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
 const Breadcrumb = ({ path }) => {
   const paths = {
     "home": ["Home"],
-    "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collection"],
+    "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collection Vol-1"],
     "mehroon-collection": ["Home", "Brands", "Mehroon Collection"],
     "ladies":["Home","Ladies"],
     "gents":["Home","Gents"],
-    "sejal-unstitched-collection":["Home","Brands","Sejal Unstitched Collection"]
+    "sejal-unstitched-collection":["Home","Brands","Sejal Unstitched Collection"],
+    "bin-saeed-vol-2":["Home", "Brands", "Bin Saeed Collection Vol-2"]
   };
 
   const icons = [
