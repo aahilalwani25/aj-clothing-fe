@@ -7,7 +7,8 @@ const Breadcrumb = ({ path }) => {
     "bin-saeed-vol-1": ["Home", "Brands", "Bin Saeed Collection"],
     "mehroon-collection": ["Home", "Brands", "Mehroon Collection"],
     "ladies":["Home","Ladies"],
-    "gents":["Home","Gents"]
+    "gents":["Home","Gents"],
+    "sejal-unstitched-collection":["Home","Brands","Sejal Unstitched Collection"]
   };
 
   const icons = [

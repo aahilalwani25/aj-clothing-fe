@@ -11,6 +11,10 @@ const images = [
     src: "/svg/mehroon-catalogue.svg",
     href: "/brands/mehroon-lawn-by-tawakkal",
   },
+  {
+    src: "/svg/sejal-unstitched-collection.svg",
+    href: "/brands/sejal-unstitched-collection",
+  },
 ];
 
 export default function Carousel() {
